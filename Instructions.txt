@@ -1,0 +1,13 @@
+1.Para el ejercicio uno hay que saber que:
+	-El goal la posición donde tu clickas
+	-El mapa pinta de diferentes colores dependiendo del peso de los nodo, en BFS y GFS solo hay pesos 1, 0 por lo que no se ve, pero en los demás 
+	se pueden ver regiones de diferentes colores dependiendo de su peso
+	-Para cambiar de algoritmo es A-->A*, B-->BFS, G-->GFS, D-->Dijkstra
+	-Mientras el agente se mueve no se puede calcular un nuevo goal
+2.Para moverse entre escenas son con los números 1,2,3 respectivamente al ejercicio que estan relacionados
+	-1-->Algoritmos
+	-2-->Agentes
+	-3-->TSP
+	-En la escena de los agentes encontramos a dos agentes los cuales hemos hecho que vayan muy lentos para poder comporbrar bien que el agente evade a los agentes
+3.En esta escena los goals son las monedas por lo que no se puede clickar en el mapa, el agente solo se mueve hacia las moendas, si se quiere volver a ver como recorre
+todas las monedas, al volver a clickar sobre el 3 se reincia la escena pudiendo voler a ver la ejecución
