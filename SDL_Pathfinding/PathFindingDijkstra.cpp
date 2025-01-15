@@ -36,7 +36,6 @@ void PathFindingDijkstra::FindPath(float dTime)
 			float newCost = costSoFar[_current] + grid->getTerrain(new Vector2D(next->getX(), next->getY()));
 			if ((costSoFar.find(next) == costSoFar.end() || newCost < costSoFar[next]) && next->getType() != 0)
 			{
-				std::cout << "Added Node: X -> " << next->getX() << " Y -> " << next->getY() << " Type -> " << next->getType() << ". Node current size: " << nodes.size() << std::endl;
 				nodes.push_back(next);
 				costSoFar[next] = newCost;
 				frontierQueuePriority.push({ next, newCost });

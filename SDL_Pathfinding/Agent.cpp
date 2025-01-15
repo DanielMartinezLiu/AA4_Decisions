@@ -1,4 +1,4 @@
-#include "Agent.h"
+ #include "Agent.h"
 
 using namespace std;
 
@@ -16,8 +16,12 @@ Agent::Agent(bool _isPlayer) : sprite_texture(0),
 	             sprite_w(0),
 	             sprite_h(0),
 	             draw_sprite(false),
-				 isPlayer(_isPlayer)
+				 isPlayer(_isPlayer),
+				 sensorySystem(new SensorySystem()),
+				 blackboard(new Blackboard())
 {
+	sensorySystem = nullptr;
+	blackboard = nullptr;
 }
 
 Agent::~Agent()
@@ -97,6 +101,8 @@ void Agent::update(float dtime, SDL_Event *event)
 	default:
 		break;
 	}
+
+	SensorySystemBehavior(dtime);
 
 	// Apply the steering behavior
 	steering_behaviour->applySteeringForce(this, dtime);
@@ -184,6 +190,16 @@ void Agent::draw()
 	}
 
 	
+}
+
+void Agent::SensorySystemBehavior(float dtime)
+{
+	if (isPlayer)
+		return;
+
+	sensorySystem->Update(position, blackboard->GetLastTimeSeenPos(), dtime);
+
+	blackboard->SetBlackBoardData(sensorySystem->GetBlackboardData());
 }
 
 void Agent::resetPath()

@@ -9,6 +9,8 @@
 #include "Vector2D.h"
 #include "utils.h"
 #include "Node.h"
+#include "SensorySystem.h"
+#include "Blackboard.h"
 
 class Agent
 {
@@ -23,7 +25,6 @@ public:
 private:
 	SteeringBehavior *steering_behaviour;
 	Vector2D position;
-	Vector2D velocity;
 	Vector2D target;
 
 	// Pathfinding
@@ -43,9 +44,13 @@ private:
 
 	bool isPlayer;
 
+	SensorySystem* sensorySystem;
+	Blackboard* blackboard;
+
 public:
 	Agent(bool _isPlayer);
 	~Agent();
+	Vector2D velocity;
 
 	Vector2D getPosition();
 	Vector2D getTarget();
@@ -71,6 +76,7 @@ public:
 	void clearPath();
 	void update(float dtime, SDL_Event *event);
 	void draw();
+	void SensorySystemBehavior(float dtime);
 
 	bool getIsPlayer() { return isPlayer; }
 	void resetPath();

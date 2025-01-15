@@ -1,14 +1,21 @@
 #pragma once
 
 #include "Scene.h"
-
-// Referencia cruzada con agent, pero lo pide el profe asi en el UML
-#include "Agent.h"
+#include "BlackboardData.h"
 
 class SensorySystem
 {
 private: 
 	Scene* world;
+
+	BlackboardData blackboardData;
+
 public:
-	void Update(Agent* agent, float dtime);
+
+	SensorySystem() = default;
+	~SensorySystem() = default;
+
+	void Update(Vector2D currentPos, Vector2D lastPlayerPosSaw,float dtime);
+
+	inline BlackboardData GetBlackboardData() const { return blackboardData; }
 };

@@ -16,7 +16,7 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 	agent->setTarget(Vector2D(-20, -20));
 	agents.push_back(agent);
 
-	currentPathfindingAlgorithm = new PathFindingBFS(currentMaze, agents);
+	currentPathfindingAlgorithm = new PathFindingAStar(currentMaze, agents);
 	loadTextures("../res/maze.png", "../res/coin.png");
 
 	// set agent position coords to the center of a random cell
@@ -54,26 +54,26 @@ void ScenePathFindingMouse::update(float dtime, SDL_Event *event)
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			draw_grid = !draw_grid;
 
-		if (event->key.keysym.scancode == SDL_SCANCODE_B)
-		{
-			currentMaze = new Grid("../res/maze.csv");
-			currentPathfindingAlgorithm = new PathFindingBFS(currentMaze, agents);
-		}
-		if (event->key.keysym.scancode == SDL_SCANCODE_D)
-		{
-			currentMaze = new Grid("../res/maze1.csv");
-			currentPathfindingAlgorithm = new PathFindingDijkstra(currentMaze, agents);
-		}
-		if (event->key.keysym.scancode == SDL_SCANCODE_G)
-		{
-			currentMaze = new Grid("../res/maze.csv");
-			currentPathfindingAlgorithm = new PathFindingGreedyBFS(currentMaze, agents);
-		}
-		if (event->key.keysym.scancode == SDL_SCANCODE_A)
-		{
-			currentMaze = new Grid("../res/maze1.csv");
-			currentPathfindingAlgorithm = new PathFindingAStar(currentMaze, agents);
-		}
+		//if (event->key.keysym.scancode == SDL_SCANCODE_B)
+		//{
+		//	currentMaze = new Grid("../res/maze.csv");
+		//	currentPathfindingAlgorithm = new PathFindingBFS(currentMaze, agents);
+		//}
+		//if (event->key.keysym.scancode == SDL_SCANCODE_D)
+		//{
+		//	currentMaze = new Grid("../res/maze1.csv");
+		//	currentPathfindingAlgorithm = new PathFindingDijkstra(currentMaze, agents);
+		//}
+		//if (event->key.keysym.scancode == SDL_SCANCODE_G)
+		//{
+		//	currentMaze = new Grid("../res/maze.csv");
+		//	currentPathfindingAlgorithm = new PathFindingGreedyBFS(currentMaze, agents);
+		//}
+		//if (event->key.keysym.scancode == SDL_SCANCODE_A)
+		//{
+		//	currentMaze = new Grid("../res/maze.csv");
+		//	currentPathfindingAlgorithm = new PathFindingAStar(currentMaze, agents);
+		//}
 		break;
 	case SDL_MOUSEMOTION:
 	case SDL_MOUSEBUTTONDOWN:

@@ -1,12 +1,13 @@
 #include "SceneTSP.h"
 #include "PathFindingAStar.h"
+#include "PlayerManager.h"
 
 using namespace std;
 
 SceneTSP::SceneTSP()
 {
 	draw_grid = false;
-	currentMaze = new Grid("../res/maze1.csv");
+	currentMaze = new Grid("../res/maze.csv");
 	nodePosition = new Vector2D;
 
 	srand((unsigned int)time(NULL));
@@ -16,6 +17,8 @@ SceneTSP::SceneTSP()
 	agent->setBehavior(new PathFollowing);
 	agent->setTarget(Vector2D(-20, -20));
 	agents.push_back(agent);
+
+	PLAYER_MANAGER.SetPlayer(agent);
 
 	currentPathfindingAlgorithm = new PathFindingAStar(currentMaze, agents);
 	currentPathfindingAlgorithm->SetTimeToExecuteAlgorithm(0);
@@ -192,13 +195,13 @@ void SceneTSP::drawMaze(Grid* _grid)
 
 void SceneTSP::drawCoin()
 {
-	for (Vector2D* position : coinPositions)
-	{
-		Vector2D coin_coords = currentMaze->cell2pix(*position);
-		int offset = CELL_SIZE / 2;
-		SDL_Rect dstrect = { (int)coin_coords.x - offset, (int)coin_coords.y - offset, CELL_SIZE, CELL_SIZE };
-		SDL_RenderCopy(TheApp::Instance()->getRenderer(), coin_texture, NULL, &dstrect);
-	}
+	//for (Vector2D* position : coinPositions)
+	//{
+	//	Vector2D coin_coords = currentMaze->cell2pix(*position);
+	//	int offset = CELL_SIZE / 2;
+	//	SDL_Rect dstrect = { (int)coin_coords.x - offset, (int)coin_coords.y - offset, CELL_SIZE, CELL_SIZE };
+	//	SDL_RenderCopy(TheApp::Instance()->getRenderer(), coin_texture, NULL, &dstrect);
+	//}
 }
 
 Vector2D* SceneTSP::ReturnNeareastCoin(Node* _startNode)

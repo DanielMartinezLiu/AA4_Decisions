@@ -25,7 +25,7 @@ int main(int argc, char ** argv)
 	
 	SDL_SimpleApp *app = SDL_SimpleApp::Instance();
 
-	Scene *curr_scene = new ScenePathFindingMouse;
+	Scene *curr_scene = new SceneTSP;
 	app->setWindowTitle(curr_scene->getTitle());
 
 	
@@ -44,18 +44,6 @@ int main(int argc, char ** argv)
 		{
 		case SDL_KEYDOWN:
 			if (event.key.keysym.scancode == SDL_SCANCODE_1)
-			{
-				delete(curr_scene);
-				curr_scene = new ScenePathFindingMouse;
-				app->setWindowTitle(curr_scene->getTitle());
-			}
-			if (event.key.keysym.scancode == SDL_SCANCODE_2)
-			{
-				delete(curr_scene);
-				curr_scene = new SceneEnemy;
-				app->setWindowTitle(curr_scene->getTitle());
-			}
-			if (event.key.keysym.scancode == SDL_SCANCODE_3)
 			{
 				delete(curr_scene);
 				curr_scene = new SceneTSP;

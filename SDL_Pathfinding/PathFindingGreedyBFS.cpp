@@ -48,7 +48,6 @@ void PathFindingGreedyBFS::FindPath(float dTime)
 			if (!alreadyVisited && next->getType() != 0)
 			{
 				nodes.push_back(next);
-				std::cout << "Added Node: X -> " << next->getX() << " Y -> " << next->getY() << " Type -> " << next->getType() << ". Node current size: " << nodes.size() << std::endl;
 				int priority = grid->getCost(goal, next); // Solo usamos la heurística
 				frontierQueuePriority.push({ next, priority });
 				cameFrom.push_back(new Connection(_current, next, 0));

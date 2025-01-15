@@ -39,7 +39,6 @@ void PathFindingAStar::FindPath(float dTime)
 			if ((costSoFar.find(next) == costSoFar.end() || newCost < costSoFar[next]) && next->getType() != 0)
 			{
 				nodes.push_back(next);
-				std::cout << "Added Node: X -> " << next->getX() << " Y -> " << next->getY() << " Type -> " << next->getType() << ". Node current size: " << nodes.size() << std::endl;
 
 				costSoFar[next] = newCost;
 				int priority = newCost + grid->getCost(goal, next);
