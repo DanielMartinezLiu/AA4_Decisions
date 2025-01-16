@@ -32,23 +32,9 @@ SceneTSP::SceneTSP()
 
 	// set the coin in a random cell (but at least 3 cells far from the agent)
 	
-	for (int i = 0; i < 5; i++)
-	{
-		coinPositions.push_back(new Vector2D(-1,-1));
-	}
-
-	for (Vector2D* position : coinPositions)
-	{
-		while ((!currentMaze->isValidCell(*position)) || (Vector2D::Distance(*position, rand_cell) < 3))
-			*position = Vector2D((float)(rand() % currentMaze->getNumCellX()), (float)(rand() % currentMaze->getNumCellY()));
-	}
-	
-	Vector2D startPos = currentMaze->pix2cell(Vector2D(agents[0]->getPosition().x, agents[0]->getPosition().y));
+	Vector2D startPos = currentMaze->pix2cell(Vector2D(PLAYER_MANAGER.GetPlayer()->getPosition().x, PLAYER_MANAGER.GetPlayer()->getPosition().y));
 	Node* startNode =  new Node(startPos.x, startPos.y);
 
-	Vector2D* neareastCoinPos = ReturnNeareastCoin(startNode);
-	Node* goalNode = new Node(neareastCoinPos->x, neareastCoinPos->y);
-	currentPathfindingAlgorithm->ExecuteAlgorithm(startNode, goalNode);
 }
 
 SceneTSP::~SceneTSP()
@@ -71,38 +57,32 @@ SceneTSP::~SceneTSP()
 
 void SceneTSP::update(float dtime, SDL_Event* event)
 {
-	if (coinPositions.size() == 0)
-	{
-		return;
-	}
+	switch (event->type) {
+	case SDL_KEYDOWN:
+		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
+			draw_grid = !draw_grid;
+		break;
+	case SDL_MOUSEBUTTONDOWN:
+		if (event->button.button == SDL_BUTTON_LEFT)
+		{
+			Vector2D startPos = currentMaze->pix2cell(Vector2D(agents[0]->getPosition().x, agents[0]->getPosition().y));
+			Vector2D cell = currentMaze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
 
+			if (currentMaze->isValidCell(cell))
+			{
+				currentPathfindingAlgorithm->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(cell.x, cell.y, 1));
+			}
+		}
+		break;
+	default:
+		break;
+	}
 	for (Agent* agent : agents)
 	{
 		agent->update(dtime, event);
 	}
 
 	currentPathfindingAlgorithm->Update(dtime);
-
-	// if we have arrived to the coin, replace it in a random cell!
-	for (int i = 0; i < coinPositions.size(); i++)
-	{
-		if ((agents[0]->getCurrentTargetIndex() == -1) && (currentMaze->pix2cell(agents[0]->getPosition()) == *coinPositions[i]))
-		{
-			coinPositions.erase(coinPositions.begin() + i);
-
-			Vector2D startPos = currentMaze->pix2cell(Vector2D(agents[0]->getPosition().x, agents[0]->getPosition().y));
-			Node* startNode = new Node(startPos.x, startPos.y);
-
-			Vector2D* neareastCoinPos = ReturnNeareastCoin(startNode);
-			Node* goalNode = new Node(neareastCoinPos->x, neareastCoinPos->y);
-
-			if (coinPositions.size() == 0)
-			{
-				return;
-			}
-			currentPathfindingAlgorithm->ExecuteAlgorithm(startNode, goalNode);
-		}
-	}
 	
 
 	currentMaze->resetWeight();
@@ -117,7 +97,6 @@ void SceneTSP::update(float dtime, SDL_Event* event)
 void SceneTSP::draw()
 {
 	drawMaze(currentMaze);
-	drawCoin();
 
 	currentPathfindingAlgorithm->Draw();
 
@@ -142,7 +121,7 @@ void SceneTSP::draw()
 
 const char* SceneTSP::getTitle()
 {
-	return "SDL Path Finding :: PathFinding Enemy Demo";
+	return "SDL Path Finding :: Decision Making";
 }
 
 void SceneTSP::drawMaze(Grid* _grid)
@@ -191,17 +170,6 @@ void SceneTSP::drawMaze(Grid* _grid)
 			}
 		}
 	}
-}
-
-void SceneTSP::drawCoin()
-{
-	//for (Vector2D* position : coinPositions)
-	//{
-	//	Vector2D coin_coords = currentMaze->cell2pix(*position);
-	//	int offset = CELL_SIZE / 2;
-	//	SDL_Rect dstrect = { (int)coin_coords.x - offset, (int)coin_coords.y - offset, CELL_SIZE, CELL_SIZE };
-	//	SDL_RenderCopy(TheApp::Instance()->getRenderer(), coin_texture, NULL, &dstrect);
-	//}
 }
 
 Vector2D* SceneTSP::ReturnNeareastCoin(Node* _startNode)

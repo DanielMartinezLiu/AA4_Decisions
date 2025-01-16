@@ -33,7 +33,6 @@ private:
 	bool draw_grid;
 
 	void drawMaze(Grid* _grid);
-	void drawCoin();
 
 	Vector2D* ReturnNeareastCoin(Node* _startNode);
 

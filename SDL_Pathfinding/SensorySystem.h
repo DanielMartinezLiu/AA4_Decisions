@@ -3,6 +3,8 @@
 #include "Scene.h"
 #include "BlackboardData.h"
 
+const float MAX_DISTANCE_IS_VISIBLE = 10.f;
+
 class SensorySystem
 {
 private: 
