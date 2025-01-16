@@ -1,9 +1,16 @@
 #include "FSM.h"
+#include "FSMState_Patroll.h"
 
 void FSM::ChangeState(FSMState* _newState, Agent* _agent)
 {
 	currentState->Exit(_agent);
 	currentState = _newState;
+	currentState->Enter(_agent);
+}
+
+FSM::FSM(Agent* _agent)
+{
+	currentState = new FSMState_Patroll();
 	currentState->Enter(_agent);
 }
 

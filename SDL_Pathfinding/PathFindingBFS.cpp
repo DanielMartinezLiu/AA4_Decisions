@@ -4,7 +4,7 @@ void PathFindingBFS::InitFind()
 {
 	frontierQueue.push(start);
 	cameFrom.push_back(new Connection(start, start, 0));
-	nodes.push_back(frontierQueue.front());
+	//nodes.push_back(frontierQueue.front());
 }
 
 
@@ -48,7 +48,7 @@ void PathFindingBFS::FindPath(float dTime)
 			// Si no lo hemos visitado, añadimos un nuevo connection con el valor actual y el siguiente
 			if (!alreadyVisited && next->getType() != 0)
 			{
-				nodes.push_back(next);
+				//nodes.push_back(next);
 
 				frontierQueue.push(next);
 				cameFrom.push_back(new Connection(_current, next, 0)); 

@@ -2,7 +2,8 @@
 
 using namespace std;
 
-void Grid::InitGrid(char* filename)
+
+Grid::Grid(char* filename)
 {
 	num_cell_x = SRC_WIDTH / CELL_SIZE;
 	num_cell_y = SRC_HEIGHT / CELL_SIZE;
@@ -29,6 +30,10 @@ void Grid::InitGrid(char* filename)
 		nodes.push_back(node_row);
 	}
 	infile.close();
+}
+
+Grid::~Grid()
+{
 }
 
 Vector2D Grid::cell2pix(Vector2D cell)
@@ -65,32 +70,6 @@ int Grid::getTerrain(Vector2D* position)
 		return nodes[y][x]->getType();
 	}
 	return 0;
-}
-
-void Grid::changeWeight(Vector2D position)
-{
-
-	Node* currentNode = nodes[position.y][position.x];
-	currentNode->setType(20);
-
-	std::vector<Node*> firstNeighbourNodes = getNeighbours(currentNode);
-	for (Node* firstNode : firstNeighbourNodes)
-	{
-		if (firstNode->getType() != 0)
-		{
-			firstNode->setType(15);
-		}
-		std::vector<Node*> secondNeighbourNodes = getNeighbours(firstNode);
-		for (Node* secondNode : secondNeighbourNodes)
-		{
-			if (secondNode->getType() != 0 && secondNode != currentNode)
-			{
-				secondNode->setType(10);
-			}
-		}
-		secondNeighbourNodes.clear();
-	}
-	firstNeighbourNodes.clear();
 }
 
 void Grid::resetWeight()

@@ -12,6 +12,10 @@
 #include "SensorySystem.h"
 #include "Blackboard.h"
 
+
+class FSM;
+class PathFindingAlgorithm;
+
 class Agent
 {
 public:
@@ -46,6 +50,8 @@ private:
 
 	SensorySystem* sensorySystem;
 	Blackboard* blackboard;
+	FSM* stateMachine;
+	PathFindingAlgorithm* currentPathfindingAlgorithm;
 
 public:
 	Agent(bool _isPlayer);
@@ -67,9 +73,11 @@ public:
 	void setMaxVelocity(float maxVelocity);
 	void addPathPoint(Vector2D point);
 	void setCurrentTargetIndex(int idx);
+	void SetFSM(FSM* _FSM);
 
 	int getCurrentTargetIndex();
 	int getPathSize();
+	PathFindingAlgorithm* GetAlgorithm() { return currentPathfindingAlgorithm; }
 
 	Vector2D getPathPoint(int idx);
 
@@ -82,4 +90,5 @@ public:
 	void resetPath();
 
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);
+
 };

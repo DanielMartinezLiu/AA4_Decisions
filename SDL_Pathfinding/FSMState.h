@@ -1,5 +1,8 @@
 #pragma once
-#include "Agent.h"
+#include "GridManager.h"
+
+class Agent;
+
 class FSMState
 {
 public:

@@ -11,7 +11,7 @@ class PathFindingBFS : public PathFindingAlgorithm
 {
 
 public:
-	PathFindingBFS(Grid* grid, std::vector<Agent*> agent) : PathFindingAlgorithm(grid, agent) {}
+	PathFindingBFS(Grid* grid, Agent* agent) : PathFindingAlgorithm(grid, agent) {}
 
 	void InitFind();
 

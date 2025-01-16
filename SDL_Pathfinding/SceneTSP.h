@@ -10,7 +10,6 @@
 #include "Seek.h"
 #include "PathFollowing.h"
 #include "Grid.h"
-#include "PathFindingAlgorithm.h"
 
 class SceneTSP : public Scene
 {
@@ -25,8 +24,6 @@ private:
 	std::vector<Vector2D*> coinPositions;
 	bool firstExecute;
 
-	PathFindingAlgorithm* currentPathfindingAlgorithm;
-
 	Grid* currentMaze;
 	Vector2D* nodePosition;
 
@@ -37,6 +34,8 @@ private:
 	Vector2D* ReturnNeareastCoin(Node* _startNode);
 
 	void setColor(int r, int g, int b, Vector2D pos);
+
+	void CreateAgents(bool isPlayer, int velocity);
 
 	SDL_Texture* background_texture;
 	SDL_Texture* coin_texture;

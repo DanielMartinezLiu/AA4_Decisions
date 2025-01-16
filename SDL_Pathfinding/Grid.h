@@ -29,7 +29,6 @@ public:
 	int getNumCellY() { return num_cell_y; }
 	int getTerrain(Vector2D* position);
 
-	void changeWeight(Vector2D position);
 	void resetWeight();
 
 	int getCost(Node* current, Node* next);

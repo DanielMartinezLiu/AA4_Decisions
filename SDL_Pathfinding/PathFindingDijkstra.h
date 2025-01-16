@@ -11,7 +11,7 @@
 class PathFindingDijkstra : public PathFindingAlgorithm
 {
 public:
-	PathFindingDijkstra(Grid* grid, std::vector<Agent*> agent) : PathFindingAlgorithm(grid, agent) {}
+	PathFindingDijkstra(Grid* grid, Agent* agent) : PathFindingAlgorithm(grid, agent) {}
 
 	void InitFind();
 

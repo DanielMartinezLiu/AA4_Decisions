@@ -41,8 +41,6 @@ SceneEnemy::SceneEnemy()
 	CreateEnemy(enemyPositions);
 	CreateEnemy(enemyPositions2);
 
-	currentPathfindingAlgorithm = new PathFindingDijkstra(currentMaze, agents);
-	currentPathfindingAlgorithm->SetTimeToExecuteAlgorithm(0);
 	loadTextures("../res/maze.png", "../res/coin.png");
 
 	// set agent position coords to the center of a random cell
@@ -115,7 +113,7 @@ void SceneEnemy::update(float dtime, SDL_Event* event)
 	for (int i = 1; i < agents.size(); i++)
 	{
 		Vector2D position = currentMaze->pix2cell(Vector2D(agents[i]->getPosition()));
-		currentMaze->changeWeight(position);
+
 	}
 }
 
@@ -123,8 +121,6 @@ void SceneEnemy::draw()
 {
 	drawMaze(currentMaze);
 	drawCoin();
-
-	currentPathfindingAlgorithm->Draw();
 
 	if (draw_grid)
 	{
