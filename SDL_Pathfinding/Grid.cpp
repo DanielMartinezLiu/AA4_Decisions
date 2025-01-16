@@ -2,11 +2,11 @@
 
 using namespace std;
 
-Grid::Grid(char* filename)
+void Grid::InitGrid(char* filename)
 {
 	num_cell_x = SRC_WIDTH / CELL_SIZE;
 	num_cell_y = SRC_HEIGHT / CELL_SIZE;
-	
+
 	int x = 0;
 	int y = 0;
 
@@ -29,10 +29,6 @@ Grid::Grid(char* filename)
 		nodes.push_back(node_row);
 	}
 	infile.close();
-}
-
-Grid::~Grid()
-{
 }
 
 Vector2D Grid::cell2pix(Vector2D cell)

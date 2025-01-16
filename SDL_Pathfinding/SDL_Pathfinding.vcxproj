@@ -133,6 +133,12 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Blackboard.cpp" />
+    <ClCompile Include="DecisionMakingAlgorithm.cpp" />
+    <ClCompile Include="FSM.cpp" />
+    <ClCompile Include="FSMState.cpp" />
+    <ClCompile Include="FSMState_Chase.cpp" />
+    <ClCompile Include="FSMState_Evade.cpp" />
+    <ClCompile Include="FSMState_Patroll.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
@@ -155,6 +161,12 @@
     <ClInclude Include="Blackboard.h" />
     <ClInclude Include="BlackboardData.h" />
     <ClInclude Include="Connection.h" />
+    <ClInclude Include="DecisionMakingAlgorithm.h" />
+    <ClInclude Include="FSM.h" />
+    <ClInclude Include="FSMState.h" />
+    <ClInclude Include="FSMState_Chase.h" />
+    <ClInclude Include="FSMState_Evade.h" />
+    <ClInclude Include="FSMState_Patroll.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Path.h" />
