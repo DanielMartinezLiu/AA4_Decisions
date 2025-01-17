@@ -175,8 +175,10 @@ void SceneTSP::setColor(int r, int g, int b, Vector2D pos)
 void SceneTSP::CreateAgents(bool isPlayer, int velocity)
 {
 	Agent* agent = new Agent(isPlayer);
-	if(!isPlayer)
+	if (!isPlayer)
 		agent->SetFSM(new FSM(agent));
+	else
+		agent->SetHasGun(true);
 	agent->loadSpriteTexture("../res/soldier.png", 4);
 	agent->setBehavior(new PathFollowing);
 	agent->setTarget(Vector2D(-20, -20));

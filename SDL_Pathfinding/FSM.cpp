@@ -19,5 +19,7 @@ void FSM::Update(Agent* _agent, float _dtime)
 	FSMState* newState = currentState->Update(_agent, _dtime);
 
 	if (newState != nullptr)
+	{
 		ChangeState(newState, _agent);
+	}
 }

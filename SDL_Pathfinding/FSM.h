@@ -4,8 +4,8 @@
 class FSM
 {
 private:
-
 	FSMState* currentState;
+
 public:
 	FSM(Agent* _agent);
 
