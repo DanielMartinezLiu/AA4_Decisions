@@ -9,6 +9,12 @@ private:
 	Scene* world;
 
 	BlackboardData blackboardData;
+	float distance = 300;
+	float backwardRadius = 75;
+	float forwardRadius = 200;
+	float internalRadius = 150;
+	float forwardAngle = 30;
+	float visionAngle = 90;
 
 public:
 

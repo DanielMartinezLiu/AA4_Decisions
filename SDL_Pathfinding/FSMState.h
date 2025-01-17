@@ -8,6 +8,7 @@ class FSMState
 protected:
 	Vector2D startPos;
 	Vector2D targetPos;
+	float speed;
 
 public:
 	virtual void Enter(Agent* _agent) = 0;

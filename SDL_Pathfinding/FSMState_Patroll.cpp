@@ -15,10 +15,14 @@ Vector2D FSMState_Patroll::SetRandomTarget()
 
 void FSMState_Patroll::Enter(Agent* _agent)
 {
+	speed = 50;
+
 	startPos = GRID_MANAGER.GetGrid()->pix2cell(Vector2D(_agent->getPosition().x, _agent->getPosition().y));
 	targetPos = SetRandomTarget();
 
 	_agent->GetAlgorithm()->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(targetPos.x, targetPos.y, 1));
+
+	_agent->setMaxVelocity(speed);
 }
 
 void FSMState_Patroll::Exit(Agent* _agent)
@@ -34,7 +38,7 @@ FSMState* FSMState_Patroll::Update(Agent* _agent, float _dtime)
 
 FSMState* FSMState_Patroll::ChangeStateCondition(Agent* _agent)
 {
-	if(_agent->GetBlackBoard()->GetConeValue() > 50)
+	if(_agent->GetBlackBoard()->GetConeValue() >= 50)
 	{
 		return new FSMState_Chase();
 	}

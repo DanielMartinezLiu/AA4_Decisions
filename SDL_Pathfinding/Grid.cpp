@@ -106,3 +106,31 @@ std::vector<Node*> Grid::getNeighbours(Node* currentNode)
 
 	return neighbours;
 }
+
+Vector2D Grid::GetClosestValidCell(const Vector2D& position)
+{
+	Vector2D cell = pix2cell(position);
+
+	if (isValidCell(cell))
+	{
+		return cell; 
+	}
+
+	for (int radius = 1; radius < 10; ++radius)
+	{
+		for (int dx = -radius; dx <= radius; ++dx)
+		{
+			for (int dy = -radius; dy <= radius; ++dy)
+			{
+				Vector2D newCell = cell + Vector2D(dx, dy);
+
+				if (isValidCell(newCell))
+				{
+					return newCell;
+				}
+			}
+		}
+	}
+
+	return cell; 
+}

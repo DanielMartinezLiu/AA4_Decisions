@@ -17,10 +17,9 @@ SceneTSP::SceneTSP()
 	GRID_MANAGER.SetGrid(currentMaze);
 
 	CreateAgents(true, 200);
-	CreateAgents(false, 100);
-	//CreateAgents(false, 60);
+	CreateAgents(false, 50);
+	CreateAgents(false, 50);
 
-	//Ahora mismo no hay un player si no el enemigo
 	PLAYER_MANAGER.SetPlayer(agents[0]);
 
 	loadTextures("../res/maze.png", "../res/coin.png");
@@ -50,16 +49,18 @@ void SceneTSP::update(float dtime, SDL_Event* event)
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			draw_grid = !draw_grid;
+		if (event->key.keysym.scancode == SDL_SCANCODE_1)
+			PLAYER_MANAGER.GetPlayer()->SetHasGun(!PLAYER_MANAGER.GetPlayer()->GetHasGun());
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event->button.button == SDL_BUTTON_LEFT)
 		{
-			Vector2D startPos = currentMaze->pix2cell(Vector2D(agents[0]->getPosition().x, agents[0]->getPosition().y));
+			Vector2D startPos = currentMaze->pix2cell(Vector2D(PLAYER_MANAGER.GetPlayer()->getPosition().x, PLAYER_MANAGER.GetPlayer()->getPosition().y));
 			Vector2D cell = currentMaze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
 
 			if (currentMaze->isValidCell(cell))
 			{
-				agents[0]->GetAlgorithm()->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(cell.x, cell.y, 1));
+				PLAYER_MANAGER.GetPlayer()->GetAlgorithm()->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(cell.x, cell.y, 1));
 			}
 		}
 		break;

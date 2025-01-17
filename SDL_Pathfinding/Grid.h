@@ -35,4 +35,6 @@ public:
 
 	std::vector< std::vector<Node*> > getNodes() { return nodes; }
 	std::vector<Node*> getNeighbours(Node* currentNode);
+
+	Vector2D GetClosestValidCell(const Vector2D& position);
 }; 

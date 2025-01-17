@@ -7,13 +7,12 @@ void SensorySystem::Update(Vector2D currentPos, Vector2D velocity, Vector2D last
 	blackboardData.hasGun = PLAYER_MANAGER.GetPlayer()->GetHasGun();
 	blackboardData.lastPlayerPosSaw = lastPlayerPosSaw;
 
-	int coneValue = Vector2DUtils::NewIsInsideCone(PLAYER_MANAGER.GetPlayer()->getPosition(), currentPos, velocity, 300, 75, 200, 150, 30, 90);
+	int coneValue = Vector2DUtils::NewIsInsideCone(PLAYER_MANAGER.GetPlayer()->getPosition(), currentPos, velocity, distance, backwardRadius,
+		forwardRadius, internalRadius, forwardAngle, visionAngle);
+	blackboardData.coneValue = coneValue;
 
 	if (coneValue > 0)
-	{
 		blackboardData.isVisible = true;
-		blackboardData.coneValue = coneValue;
-	}
 	else
 		blackboardData.isVisible = false;
 

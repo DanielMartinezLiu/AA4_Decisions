@@ -7,7 +7,9 @@
 
 void FSMState_Evade::Enter(Agent* _agent)
 {
+    speed = 200;
     EvadeTarget(_agent);
+    _agent->setMaxVelocity(speed);
 }
 
 void FSMState_Evade::Exit(Agent* _agent)
@@ -35,38 +37,63 @@ FSMState* FSMState_Evade::ChangeStateCondition(Agent* _agent)
 }
 void FSMState_Evade::EvadeTarget(Agent* _agent)
 {
-    // Obtener la posición actual del jugador y la del agente
     Vector2D playerPosition = PLAYER_MANAGER.GetPlayer()->getPosition();
     Vector2D agentPosition = _agent->getPosition();
 
-    // Calcular la dirección hacia el jugador
-    Vector2D directionToPlayer = (playerPosition - agentPosition).Normalize();
+    Vector2D directionToPlayer = playerPosition - agentPosition;
+    float magnitude = sqrtf(directionToPlayer.x * directionToPlayer.x + directionToPlayer.y * directionToPlayer.y);
+    if (magnitude > 0)
+    {
+        directionToPlayer /= magnitude;
+    }
+    else
+    {
+        directionToPlayer = Vector2D();
+    }
 
-    // Obtener la dirección opuesta al jugador
-    Vector2D oppositeDirection = Vector2D(directionToPlayer.x * -1, directionToPlayer.y * -1);
+    Vector2D oppositeDirection = directionToPlayer * -1;
 
-    float dist = rand() % 200 + 50;
-    Vector2D newTarget = agentPosition + oppositeDirection.Normalize() * dist;
+    const int maxAttempts = 10;  
+    const float minDist = 100.0f; 
+    const float maxDist = 400.0f; 
 
-    float maxX = GRID_MANAGER.GetGrid()->getNumCellX() * GRID_MANAGER.GetGrid()->getNumCellX();
-    float maxY = GRID_MANAGER.GetGrid()->getNumCellY() * GRID_MANAGER.GetGrid()->getNumCellY();
+    float dist = maxDist;
+    Vector2D newTarget;
 
-    // Asegurarte de que el nuevo objetivo está dentro de los límites del mapa (opcional, pero recomendable)
-    float clampedX = newTarget.x < 0.0f ? 0.0f : (newTarget.x > maxX ? maxX : newTarget.x);
-    float clampedY = newTarget.y < 0.0f ? 0.0f : (newTarget.y > maxY ? maxY : newTarget.y);
+    for (int attempt = 0; attempt < maxAttempts; ++attempt)
+    {
+        newTarget = agentPosition + oppositeDirection * dist;
 
-    newTarget = Vector2D(clampedX, clampedY);
+        float maxX = GRID_MANAGER.GetGrid()->getNumCellX() * GRID_MANAGER.GetGrid()->getNumCellX();
+        float maxY = GRID_MANAGER.GetGrid()->getNumCellY() * GRID_MANAGER.GetGrid()->getNumCellY();
 
-    // Establece el nuevo objetivo y calcula la ruta hacia él
-    startPos = GRID_MANAGER.GetGrid()->pix2cell(agentPosition);
-    targetPos = GRID_MANAGER.GetGrid()->pix2cell(newTarget);
+        float clampedX = (newTarget.x < 0.0f) ? 0.0f : (newTarget.x > maxX ? maxX : newTarget.x);
+        float clampedY = (newTarget.y < 0.0f) ? 0.0f : (newTarget.y > maxY ? maxY : newTarget.y);
+
+        newTarget = Vector2D(clampedX, clampedY);
+
+        startPos = GRID_MANAGER.GetGrid()->pix2cell(agentPosition);
+        targetPos = GRID_MANAGER.GetGrid()->pix2cell(newTarget);
+
+        if (GRID_MANAGER.GetGrid()->isValidCell(targetPos))
+        {
+            break;
+        }
+
+        dist -= (maxDist - minDist) / maxAttempts;
+
+        oppositeDirection.x += (rand() % 100 - 50) / 100.0f;
+        oppositeDirection.y += (rand() % 100 - 50) / 100.0f;
+        oppositeDirection.Normalize();
+    }
 
     if (!GRID_MANAGER.GetGrid()->isValidCell(targetPos))
     {
-        EvadeTarget(_agent);
-        return;
+        targetPos = GRID_MANAGER.GetGrid()->GetClosestValidCell(agentPosition);
     }
 
-    // Ejecuta el algoritmo de pathfinding para obtener la ruta hacia el nuevo objetivo
     _agent->GetAlgorithm()->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(targetPos.x, targetPos.y, 1));
 }
+
+
+
