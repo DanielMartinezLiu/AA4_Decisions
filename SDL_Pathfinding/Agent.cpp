@@ -112,8 +112,6 @@ void Agent::update(float dtime, SDL_Event *event)
 
 	SensorySystemBehavior(dtime);
 
-	if(!isPlayer)
-		stateMachine->Update(this, dtime);
 
 	currentPathfindingAlgorithm->Update(dtime);
 
@@ -177,6 +175,11 @@ void Agent::SetFSM(FSM* _FSM)
 	stateMachine = _FSM;
 }
 
+void Agent::SetHasGun(bool _hasGun)
+{
+	hasGun = _hasGun;
+}
+
 void Agent::draw()
 {
 	// Path
@@ -215,11 +218,11 @@ void Agent::SensorySystemBehavior(float dtime)
 	if (isPlayer)
 		return;
 
-	sensorySystem->Update(position, blackboard->GetLastTimeSeenPos(), dtime);
+	sensorySystem->Update(position, blackboard->GetLastTimeSeenPos(), velocity, dtime);
 
 	blackboard->SetBlackBoardData(sensorySystem->GetBlackboardData());
 
-	//brain->Update(this, dtime);
+	stateMachine->Update(this, dtime);
 }
 
 void Agent::resetPath()

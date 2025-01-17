@@ -19,6 +19,7 @@ public:
 	inline bool GetIsVisible() const { return blackboardData.isVisible; }
 	inline bool GetHasGun() const { return blackboardData.hasGun; }
 	inline Vector2D GetLastTimeSeenPos() const { return blackboardData.lastPlayerPosSaw; }
+	inline int GetConeValue() const { return blackboardData.coneValue; }
 
 	inline BlackboardData SetBlackBoardData(const BlackboardData& _blackboardData) { return blackboardData = _blackboardData; }
 };

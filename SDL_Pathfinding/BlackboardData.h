@@ -6,4 +6,5 @@ struct BlackboardData
 	bool isVisible;
 	bool hasGun;
 	Vector2D lastPlayerPosSaw;
+	int coneValue;
 };

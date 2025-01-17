@@ -16,9 +16,9 @@ SceneTSP::SceneTSP()
 
 	GRID_MANAGER.SetGrid(currentMaze);
 
-	CreateAgents(true, 100);
-	CreateAgents(false, 60);
-	CreateAgents(false, 60);
+	CreateAgents(true, 200);
+	CreateAgents(false, 100);
+	//CreateAgents(false, 60);
 
 	//Ahora mismo no hay un player si no el enemigo
 	PLAYER_MANAGER.SetPlayer(agents[0]);

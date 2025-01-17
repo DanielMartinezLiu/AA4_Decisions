@@ -53,6 +53,8 @@ private:
 	FSM* stateMachine;
 	PathFindingAlgorithm* currentPathfindingAlgorithm;
 
+	bool hasGun;
+
 public:
 	Agent(bool _isPlayer);
 	~Agent();
@@ -74,6 +76,7 @@ public:
 	void addPathPoint(Vector2D point);
 	void setCurrentTargetIndex(int idx);
 	void SetFSM(FSM* _FSM);
+	void SetHasGun(bool _hasGun);
 
 	int getCurrentTargetIndex();
 	int getPathSize();
@@ -90,5 +93,8 @@ public:
 	void resetPath();
 
 	bool Agent::loadSpriteTexture(char* filename, int num_frames=1);
+
+	bool GetHasGun() { return hasGun; }
+	Blackboard* GetBlackBoard() { return blackboard; }
 
 };

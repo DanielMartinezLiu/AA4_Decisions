@@ -9,6 +9,9 @@ private:
 	Vector2D startPos;
 	Vector2D targetPos;
 
+	FSMState* ChangeStateCondition(Agent* _agent);
+	void ArriveTarget(Agent* _agent);
+
 public:
 	void Enter(Agent* _agent) override;
 	void Exit(Agent* _agent) override;
