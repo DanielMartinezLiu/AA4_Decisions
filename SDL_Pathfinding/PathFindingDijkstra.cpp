@@ -4,7 +4,7 @@ void PathFindingDijkstra::InitFind()
 {
 	frontierQueuePriority.push({ start, 0 });
 	cameFrom.push_back(new Connection(start, start, 0));
-	nodes.push_back(frontierQueuePriority.top().first);
+	//nodes.push_back(frontierQueuePriority.top().first);
 	costSoFar[start] = 0;
 }
 
@@ -36,7 +36,7 @@ void PathFindingDijkstra::FindPath(float dTime)
 			float newCost = costSoFar[_current] + grid->getTerrain(new Vector2D(next->getX(), next->getY()));
 			if ((costSoFar.find(next) == costSoFar.end() || newCost < costSoFar[next]) && next->getType() != 0)
 			{
-				nodes.push_back(next);
+				//nodes.push_back(next);
 				costSoFar[next] = newCost;
 				frontierQueuePriority.push({ next, newCost });
 				cameFrom.push_back(new Connection(_current, next, 0));

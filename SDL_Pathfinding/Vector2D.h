@@ -200,6 +200,44 @@ namespace Vector2DUtils
 		return isInsideCone;
 	}
 
+	static int NewIsInsideCone(Vector2D targetPosition, Vector2D position, Vector2D velocity, float distance, float backwardRadius, float forwardRadius, float internalRadius, float forwardAngle, float visionAngle)
+	{ 
+		Vector2D forwardVector = velocity.Normalize();
+
+		float distanceToTarget = Vector2D::Distance(targetPosition, position);
+
+		if (distanceToTarget > distance)
+			return 0;
+
+		Vector2D agentToTarget = (targetPosition - position).Normalize();
+
+		float cosAngleToTarget = Vector2D::Dot(forwardVector, agentToTarget);
+
+		float cosForwardAngle = cosf(forwardAngle * DEG2RAD);
+		float cosVisionAngle = cosf(visionAngle * DEG2RAD);
+
+		if (cosAngleToTarget < 0) 
+		{
+			if (distanceToTarget <= backwardRadius)
+				return 80; 
+			else
+				return 0;
+		}
+
+		if (cosAngleToTarget >= cosForwardAngle && distanceToTarget <= forwardRadius)
+			return 100; 
+
+		if (cosAngleToTarget >= cosVisionAngle)
+		{
+			if (distanceToTarget <= internalRadius)
+				return 80; 
+			else if (distanceToTarget <= distance)
+				return 30; 
+		}
+
+		return 0;
+	}
+
 	static Vector2D RotatePoint(Vector2D center, Vector2D point, float angle)
 	{
 		float s = sinf(angle * DEG2RAD);

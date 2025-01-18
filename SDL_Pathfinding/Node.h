@@ -25,8 +25,6 @@ public:
 
 	void setType(int _type) { type = _type; }
 
-	void draw(Vector2D position);
-
 	bool operator==(const Node& other) const {
 		return (this->x == other.x) && (this->y == other.y);
 	}

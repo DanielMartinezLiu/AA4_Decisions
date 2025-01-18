@@ -140,6 +140,7 @@
     <ClCompile Include="FSMState_Evade.cpp" />
     <ClCompile Include="FSMState_Patroll.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="GridManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="PathFindingAlgorithm.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="FSMState_Evade.h" />
     <ClInclude Include="FSMState_Patroll.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="GridManager.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="PathFindingAlgorithm.h" />

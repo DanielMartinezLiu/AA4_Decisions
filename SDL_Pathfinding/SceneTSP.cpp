@@ -1,6 +1,8 @@
 #include "SceneTSP.h"
 #include "PathFindingAStar.h"
 #include "PlayerManager.h"
+#include "GridManager.h"
+#include "FSM.h"
 
 using namespace std;
 
@@ -12,29 +14,15 @@ SceneTSP::SceneTSP()
 
 	srand((unsigned int)time(NULL));
 
-	Agent* agent = new Agent(true);
-	agent->loadSpriteTexture("../res/soldier.png", 4);
-	agent->setBehavior(new PathFollowing);
-	agent->setTarget(Vector2D(-20, -20));
-	agents.push_back(agent);
+	GRID_MANAGER.SetGrid(currentMaze);
 
-	PLAYER_MANAGER.SetPlayer(agent);
+	CreateAgents(true, 200);
+	CreateAgents(false, 50);
+	CreateAgents(false, 50);
 
-	currentPathfindingAlgorithm = new PathFindingAStar(currentMaze, agents);
-	currentPathfindingAlgorithm->SetTimeToExecuteAlgorithm(0);
+	PLAYER_MANAGER.SetPlayer(agents[0]);
+
 	loadTextures("../res/maze.png", "../res/coin.png");
-
-	// set agent position coords to the center of a random cell
-	Vector2D rand_cell(-1, -1);
-	while (!currentMaze->isValidCell(rand_cell))
-		rand_cell = Vector2D((float)(rand() % currentMaze->getNumCellX()), (float)(rand() % currentMaze->getNumCellY()));
-	agents[0]->setPosition(currentMaze->cell2pix(rand_cell));
-
-	// set the coin in a random cell (but at least 3 cells far from the agent)
-	
-	Vector2D startPos = currentMaze->pix2cell(Vector2D(PLAYER_MANAGER.GetPlayer()->getPosition().x, PLAYER_MANAGER.GetPlayer()->getPosition().y));
-	Node* startNode =  new Node(startPos.x, startPos.y);
-
 }
 
 SceneTSP::~SceneTSP()
@@ -61,16 +49,18 @@ void SceneTSP::update(float dtime, SDL_Event* event)
 	case SDL_KEYDOWN:
 		if (event->key.keysym.scancode == SDL_SCANCODE_SPACE)
 			draw_grid = !draw_grid;
+		if (event->key.keysym.scancode == SDL_SCANCODE_1)
+			PLAYER_MANAGER.GetPlayer()->SetHasGun(!PLAYER_MANAGER.GetPlayer()->GetHasGun());
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event->button.button == SDL_BUTTON_LEFT)
 		{
-			Vector2D startPos = currentMaze->pix2cell(Vector2D(agents[0]->getPosition().x, agents[0]->getPosition().y));
+			Vector2D startPos = currentMaze->pix2cell(Vector2D(PLAYER_MANAGER.GetPlayer()->getPosition().x, PLAYER_MANAGER.GetPlayer()->getPosition().y));
 			Vector2D cell = currentMaze->pix2cell(Vector2D((float)(event->button.x), (float)(event->button.y)));
 
 			if (currentMaze->isValidCell(cell))
 			{
-				currentPathfindingAlgorithm->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(cell.x, cell.y, 1));
+				PLAYER_MANAGER.GetPlayer()->GetAlgorithm()->ExecuteAlgorithm(new Node(startPos.x, startPos.y, 1), new Node(cell.x, cell.y, 1));
 			}
 		}
 		break;
@@ -81,24 +71,11 @@ void SceneTSP::update(float dtime, SDL_Event* event)
 	{
 		agent->update(dtime, event);
 	}
-
-	currentPathfindingAlgorithm->Update(dtime);
-	
-
-	currentMaze->resetWeight();
-
-	for (int i = 1; i < agents.size(); i++)
-	{
-		Vector2D position = currentMaze->pix2cell(Vector2D(agents[i]->getPosition()));
-		currentMaze->changeWeight(position);
-	}
 }
 
 void SceneTSP::draw()
 {
 	drawMaze(currentMaze);
-
-	currentPathfindingAlgorithm->Draw();
 
 	if (draw_grid)
 	{
@@ -194,6 +171,20 @@ void SceneTSP::setColor(int r, int g, int b, Vector2D pos)
 	Vector2D coords = pos - Vector2D((float)CELL_SIZE / 2, (float)CELL_SIZE / 2);
 	SDL_Rect rect = { (int)coords.x, (int)coords.y, CELL_SIZE, CELL_SIZE };
 	SDL_RenderFillRect(TheApp::Instance()->getRenderer(), &rect);
+}
+
+void SceneTSP::CreateAgents(bool isPlayer, int velocity)
+{
+	Agent* agent = new Agent(isPlayer);
+	if (!isPlayer)
+		agent->SetFSM(new FSM(agent));
+	else
+		agent->SetHasGun(true);
+	agent->loadSpriteTexture("../res/soldier.png", 4);
+	agent->setBehavior(new PathFollowing);
+	agent->setTarget(Vector2D(-20, -20));
+	agent->setMaxVelocity(velocity);
+	agents.push_back(agent);
 }
 
 bool SceneTSP::loadTextures(char* filename_bg, char* filename_coin)

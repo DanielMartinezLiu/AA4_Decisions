@@ -10,7 +10,7 @@
 class PathFindingGreedyBFS : public PathFindingAlgorithm
 {
 public:
-	PathFindingGreedyBFS(Grid* grid, std::vector<Agent*> agent) : PathFindingAlgorithm(grid, agent) {}
+	PathFindingGreedyBFS(Grid* grid, Agent* agent) : PathFindingAlgorithm(grid, agent) {}
 
 	void InitFind();
 

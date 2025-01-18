@@ -1,6 +1,6 @@
 #include "PathFindingAlgorithm.h"
 
-PathFindingAlgorithm::PathFindingAlgorithm(Grid* _grid, std::vector<Agent*> agent)
+PathFindingAlgorithm::PathFindingAlgorithm(Grid* _grid, Agent* agent)
 {
 	start = nullptr;
 	goal = nullptr;
@@ -27,7 +27,7 @@ void PathFindingAlgorithm::ResetNodes()
 	current = nullptr;
 	path.clear();
 	costSoFar.clear();
-	agents[0]->clearPath();
+	agents->clearPath();
 	system("cls");
 }
 
@@ -57,7 +57,7 @@ void PathFindingAlgorithm::RecoverPath()
 			for (Node* node : path)
 			{
 				Vector2D cellPosition = grid->cell2pix(Vector2D(node->getX(), node->getY()));
-				agents[0]->addPathPoint(cellPosition);
+				agents->addPathPoint(cellPosition);
 			}
 
 			path.clear();
@@ -71,16 +71,6 @@ void PathFindingAlgorithm::ExecuteAlgorithm(Node* _startNode, Node* _goalNode)
 	SetStart(_startNode);
 	SetGoal(_goalNode);
 	InitFind();
-}
-
-
-void PathFindingAlgorithm::Draw()
-{
-	for (Node* node : nodes)
-	{
-		Vector2D position = grid->cell2pix(Vector2D(node->getX(), node->getY()));
-		node->draw(position);
-	}
 }
 
 void PathFindingAlgorithm::Update(float dt)

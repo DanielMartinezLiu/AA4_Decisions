@@ -16,7 +16,6 @@ ScenePathFindingMouse::ScenePathFindingMouse()
 	agent->setTarget(Vector2D(-20, -20));
 	agents.push_back(agent);
 
-	currentPathfindingAlgorithm = new PathFindingAStar(currentMaze, agents);
 	loadTextures("../res/maze.png", "../res/coin.png");
 
 	// set agent position coords to the center of a random cell
@@ -113,8 +112,6 @@ void ScenePathFindingMouse::draw()
 {
 	drawMaze(currentMaze);
 	drawCoin();
-
-	currentPathfindingAlgorithm->Draw();
 
 	if (draw_grid)
 	{

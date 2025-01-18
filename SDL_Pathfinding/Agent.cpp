@@ -1,27 +1,31 @@
- #include "Agent.h"
+#include "Agent.h"
+#include "FSM.h"
+#include "PathFindingAlgorithm.h"
+#include "PathFindingAStar.h"
 
 using namespace std;
 
 
 Agent::Agent(bool _isPlayer) : sprite_texture(0),
-                 position(Vector2D(100, 100)),
-	             target(Vector2D(1000, 100)),
-	             velocity(Vector2D(0,0)),
-	             currentTargetIndex(-1),
-				 mass(0.1f),
-				 max_force(150),
-				 max_velocity(200),
-				 orientation(0),
-				 sprite_num_frames(0),
-	             sprite_w(0),
-	             sprite_h(0),
-	             draw_sprite(false),
-				 isPlayer(_isPlayer),
-				 sensorySystem(new SensorySystem()),
-				 blackboard(new Blackboard())
+position(Vector2D(100, 100)),
+target(Vector2D(1000, 100)),
+velocity(Vector2D(0, 0)),
+currentTargetIndex(-1),
+mass(0.1f),
+max_force(150),
+max_velocity(200),
+orientation(0),
+sprite_num_frames(0),
+sprite_w(0),
+sprite_h(0),
+draw_sprite(false),
+isPlayer(_isPlayer),
+sensorySystem(new SensorySystem()),
+blackboard(new Blackboard())
 {
-	sensorySystem = nullptr;
-	blackboard = nullptr;
+	currentPathfindingAlgorithm = new PathFindingAStar(GRID_MANAGER.GetGrid(), this);
+	currentPathfindingAlgorithm->SetTimeToExecuteAlgorithm(0);
+	SetRandomPosition();
 }
 
 Agent::~Agent()
@@ -104,6 +108,9 @@ void Agent::update(float dtime, SDL_Event *event)
 
 	SensorySystemBehavior(dtime);
 
+
+	currentPathfindingAlgorithm->Update(dtime);
+
 	// Apply the steering behavior
 	steering_behaviour->applySteeringForce(this, dtime);
 	
@@ -159,6 +166,16 @@ void Agent::setCurrentTargetIndex(int idx)
 	currentTargetIndex = idx;
 }
 
+void Agent::SetFSM(FSM* _FSM)
+{
+	stateMachine = _FSM;
+}
+
+void Agent::SetHasGun(bool _hasGun)
+{
+	hasGun = _hasGun;
+}
+
 void Agent::draw()
 {
 	// Path
@@ -197,9 +214,11 @@ void Agent::SensorySystemBehavior(float dtime)
 	if (isPlayer)
 		return;
 
-	sensorySystem->Update(position, blackboard->GetLastTimeSeenPos(), dtime);
+	sensorySystem->Update(position, blackboard->GetLastTimeSeenPos(), velocity, dtime);
 
 	blackboard->SetBlackBoardData(sensorySystem->GetBlackboardData());
+
+	stateMachine->Update(this, dtime);
 }
 
 void Agent::resetPath()
@@ -229,4 +248,12 @@ bool Agent::loadSpriteTexture(char* filename, int _num_frames)
 		SDL_FreeSurface(image);
 
 	return true;
+}
+
+void Agent::SetRandomPosition()
+{
+	Vector2D rand_cell(-1, -1);
+	while (!GRID_MANAGER.GetGrid()->isValidCell(rand_cell))
+		rand_cell = Vector2D((float)(rand() % GRID_MANAGER.GetGrid()->getNumCellX()), (float)(rand() % GRID_MANAGER.GetGrid()->getNumCellY()));
+	setPosition(GRID_MANAGER.GetGrid()->cell2pix(rand_cell));
 }
