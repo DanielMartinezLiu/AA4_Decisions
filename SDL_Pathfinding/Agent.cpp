@@ -21,7 +21,10 @@ sprite_h(0),
 draw_sprite(false),
 isPlayer(_isPlayer),
 sensorySystem(new SensorySystem()),
-blackboard(new Blackboard())
+blackboard(new Blackboard()),
+R(255),
+G(255),
+B(255)
 {
 	currentPathfindingAlgorithm = new PathFindingAStar(GRID_MANAGER.GetGrid(), this);
 	currentPathfindingAlgorithm->SetTimeToExecuteAlgorithm(0);
@@ -189,15 +192,12 @@ void Agent::draw()
 	if (draw_sprite)
 	{
 		Uint32 sprite;
-		
+
 		if (hasGun)
-		{
 			SDL_SetTextureColorMod(sprite_texture, 255, 0, 0);
-		}
 		else
-		{
-			SDL_SetTextureColorMod(sprite_texture, 255, 255, 255);
-		}
+			SDL_SetTextureColorMod(sprite_texture, R, G, B);
+
 		if (velocity.Length() < 5.0)
 			sprite = 1;
 		else
@@ -213,9 +213,9 @@ void Agent::draw()
 		draw_circle(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, 15, 255, 255, 255, 255);
 		SDL_RenderDrawLine(TheApp::Instance()->getRenderer(), (int)position.x, (int)position.y, (int)(position.x+15*cos(orientation*DEG2RAD)), (int)(position.y+15*sin(orientation*DEG2RAD)));
 	}
-
-	
 }
+
+
 
 void Agent::SensorySystemBehavior(float dtime)
 {
@@ -264,4 +264,11 @@ void Agent::SetRandomPosition()
 	while (!GRID_MANAGER.GetGrid()->isValidCell(rand_cell))
 		rand_cell = Vector2D((float)(rand() % GRID_MANAGER.GetGrid()->getNumCellX()), (float)(rand() % GRID_MANAGER.GetGrid()->getNumCellY()));
 	setPosition(GRID_MANAGER.GetGrid()->cell2pix(rand_cell));
+}
+
+void Agent::ChangeColor(float _R, float _G, float _B)
+{
+	R = _R;
+	G = _G;
+	B = _B;
 }

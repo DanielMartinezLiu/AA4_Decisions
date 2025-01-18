@@ -6,6 +6,8 @@
 
 void FSMState_Chase::Enter(Agent* _agent)
 {
+	_agent->ChangeColor(0, 0, 255);
+
 	speed = 100;
 
 	startPos = GRID_MANAGER.GetGrid()->pix2cell(Vector2D(_agent->getPosition().x, _agent->getPosition().y));
@@ -43,7 +45,7 @@ FSMState* FSMState_Chase::ChangeStateCondition(Agent* _agent)
 	{
 		return new FSMState_Evade();
 	}
-	if (!_agent->GetBlackBoard()->GetIsVisible())
+	if (!_agent->GetBlackBoard()->GetIsVisible() && _agent->GetBlackBoard()->GetConeValue() == 0)
 	{
 		return new FSMState_Patroll();
 	}
