@@ -190,6 +190,14 @@ void Agent::draw()
 	{
 		Uint32 sprite;
 		
+		if (hasGun)
+		{
+			SDL_SetTextureColorMod(sprite_texture, 255, 0, 0);
+		}
+		else
+		{
+			SDL_SetTextureColorMod(sprite_texture, 255, 255, 255);
+		}
 		if (velocity.Length() < 5.0)
 			sprite = 1;
 		else
