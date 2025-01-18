@@ -27,7 +27,6 @@ FSMState* FSMState_Evade::ChangeStateCondition(Agent* _agent)
 	{
 		return new FSMState_Patroll();
 	}
-
 	if (!_agent->GetBlackBoard()->GetHasGun())
 	{
 		return new FSMState_Chase();

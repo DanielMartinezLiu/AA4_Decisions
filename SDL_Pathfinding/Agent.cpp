@@ -25,11 +25,7 @@ blackboard(new Blackboard())
 {
 	currentPathfindingAlgorithm = new PathFindingAStar(GRID_MANAGER.GetGrid(), this);
 	currentPathfindingAlgorithm->SetTimeToExecuteAlgorithm(0);
-
-	Vector2D rand_cell(-1, -1);
-	while (!GRID_MANAGER.GetGrid()->isValidCell(rand_cell))
-		rand_cell = Vector2D((float)(rand() % GRID_MANAGER.GetGrid()->getNumCellX()), (float)(rand() % GRID_MANAGER.GetGrid()->getNumCellY()));
-	setPosition(GRID_MANAGER.GetGrid()->cell2pix(rand_cell));
+	SetRandomPosition();
 }
 
 Agent::~Agent()
@@ -252,4 +248,12 @@ bool Agent::loadSpriteTexture(char* filename, int _num_frames)
 		SDL_FreeSurface(image);
 
 	return true;
+}
+
+void Agent::SetRandomPosition()
+{
+	Vector2D rand_cell(-1, -1);
+	while (!GRID_MANAGER.GetGrid()->isValidCell(rand_cell))
+		rand_cell = Vector2D((float)(rand() % GRID_MANAGER.GetGrid()->getNumCellX()), (float)(rand() % GRID_MANAGER.GetGrid()->getNumCellY()));
+	setPosition(GRID_MANAGER.GetGrid()->cell2pix(rand_cell));
 }
