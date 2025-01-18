@@ -30,6 +30,9 @@ private:
 	SteeringBehavior* steering_behaviour;
 	Vector2D position;
 	Vector2D target;
+	float R;
+	float G;
+	float B;
 
 	// Pathfinding
 	Path path;
@@ -98,4 +101,6 @@ public:
 	Blackboard* GetBlackBoard() { return blackboard; }
 
 	void SetRandomPosition();
+
+	void ChangeColor(float _R, float _G, float _B);
 };

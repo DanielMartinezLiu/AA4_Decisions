@@ -15,6 +15,8 @@ Vector2D FSMState_Patroll::SetRandomTarget()
 
 void FSMState_Patroll::Enter(Agent* _agent)
 {
+	_agent->ChangeColor(255, 255, 255);
+
 	speed = 50;
 
 	startPos = GRID_MANAGER.GetGrid()->pix2cell(Vector2D(_agent->getPosition().x, _agent->getPosition().y));

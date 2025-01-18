@@ -7,6 +7,8 @@
 
 void FSMState_Evade::Enter(Agent* _agent)
 {
+    _agent->ChangeColor(0, 255, 0);
+
     speed = 200;
     EvadeTarget(_agent);
     _agent->setMaxVelocity(speed);
