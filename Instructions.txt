@@ -1,13 +1,17 @@
-1.Para el ejercicio uno hay que saber que:
-	-El goal la posición donde tu clickas
-	-El mapa pinta de diferentes colores dependiendo del peso de los nodo, en BFS y GFS solo hay pesos 1, 0 por lo que no se ve, pero en los demás 
-	se pueden ver regiones de diferentes colores dependiendo de su peso
-	-Para cambiar de algoritmo es A-->A*, B-->BFS, G-->GFS, D-->Dijkstra
-	-Mientras el agente se mueve no se puede calcular un nuevo goal
-2.Para moverse entre escenas son con los números 1,2,3 respectivamente al ejercicio que estan relacionados
-	-1-->Algoritmos
-	-2-->Agentes
-	-3-->TSP
-	-En la escena de los agentes encontramos a dos agentes los cuales hemos hecho que vayan muy lentos para poder comporbrar bien que el agente evade a los agentes
-3.En esta escena los goals son las monedas por lo que no se puede clickar en el mapa, el agente solo se mueve hacia las moendas, si se quiere volver a ver como recorre
-todas las monedas, al volver a clickar sobre el 3 se reincia la escena pudiendo voler a ver la ejecución
+Como proyecto base de cara a esta entrega ha sido el entregado en el AA3 por lo que encontramos diferentes clases que no utilizamos, en este cosa como escena principal usamos
+la denominada SceneTSP la cual creamos al player y los dos npcs
+	-Los 3 agentes se mueven por el escenario utilizando A* (aunque debido a que todo tiene los mismo pesos realmente se comporta como un GBFS)
+	-Para mover al player es simplemente pulsando sobre la posición que queremos que vaya siempre y cuando este dentro del laberinto y no sea una pared
+	-El player se dibuja con la textura normal si este no tiene la pistola, si tiene la pistola lo pintamos de color rojo, para alternar entre tener arma o no
+	es utilizando la tecla 1
+	-Los enemigos para detectar al player usan la función NewIsInsideConne el cual se inspira con la idea del cono que hay en las diapos de Sensory System 
+	-El patrol consiste en un simple wander que genera un punto random dentro del mapa y los mueve hacía ese punto y al llegar a este genera otro punto random
+	-El chase setea como target la posición del player y se mueve allí al llegar a esta posición comprueba si ve al player, si es el caso setea el nuevo target, si no 
+	vuelve a patrullar
+	-El evade consiste en generar un punto opuesto a la posición del player y ponerlo como target del npc, al llegar a este comprueba si sigue viendo la player o no
+	-Si esta en patrol los enemigos tiene la textura normal y tiene una velocidad máxima de 50, si esta en chase lo pintamos azul y tiene una velocidad de 100, si durante
+	este estado toca al player lo mata y lo generamos en una nueva posición random del laberinto, y para acabar en el estado de evade lo pintamos de color verde y su
+	velocidad es de 200
+
+Como tal no pintamos que tan grande es el cono de visión pero los valores utilizados se encuentran en el .h del sensory system con los diferentes radios y angulos.
+También se utiliza una función para tener en cuenta si hay una pared entre estos.
