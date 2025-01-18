@@ -40,7 +40,7 @@ FSMState* FSMState_Patroll::Update(Agent* _agent, float _dtime)
 
 FSMState* FSMState_Patroll::ChangeStateCondition(Agent* _agent)
 {
-	if(_agent->GetBlackBoard()->GetConeValue() >= 30)
+	if(_agent->GetBlackBoard()->GetConeValue() >= 30 && _agent->GetBlackBoard()->GetIsVisible())
 	{
 		return new FSMState_Chase();
 	}
